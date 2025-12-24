@@ -19,7 +19,7 @@ const mockTracks: Track[] = [
     artist: 'Grok Music',
     album: 'Demo Album',
     duration: 180,
-    url: 'https://example.com/track.mp3',
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
     createdAt: new Date().toISOString()
   }
 ];

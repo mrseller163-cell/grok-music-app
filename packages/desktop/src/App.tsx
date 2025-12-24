@@ -17,7 +17,9 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-    const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('en');
+  
+  const t = translations[language];
 
   useEffect(() => {
     fetch('http://localhost:3000/api/tracks')
@@ -90,13 +92,44 @@ function App() {
       />
       
       <div className="app-header">
-        <h1 className="title">GROK MUSIC</h1>
-        <div className="title-sub">CYBERPUNK AUDIO SYSTEM v1.0</div>
+        <div className="header-top">
+          <div className="language-switcher">
+            <button 
+              className={`lang-btn ${language === 'en' ? 'active' : ''}`}
+              onClick={() => setLanguage('en')}
+            >
+              EN
+            </button>
+            <button 
+              className={`lang-btn ${language === 'ru' ? 'active' : ''}`}
+              onClick={() => setLanguage('ru')}
+            >
+              RU
+            </button>
+          </div>
+        </div>
+        <h1 className="title">{t.title}</h1>
+        <div className="title-sub">{t.subtitle}</div>
+      </div>
+
+      <div className="ai-generators">
+        <div className="section-title">{t.aiGenerators}</div>
+        <div className="ai-buttons">
+          <a href="https://suno.com" target="_blank" rel="noopener noreferrer" className="ai-btn">
+            {t.suno}
+          </a>
+          <a href="https://udio.com" target="_blank" rel="noopener noreferrer" className="ai-btn">
+            {t.udio}
+          </a>
+          <a href="https://huggingface.co/facebook/musicgen-large" target="_blank" rel="noopener noreferrer" className="ai-btn">
+            {t.musicgen}
+          </a>
+        </div>
       </div>
 
       <div className="main-content">
         <div className="track-list">
-          <div className="section-title">PLAYLIST</div>
+          <div className="section-title">{t.playlist}</div>
           {tracks.map((track) => (
             <div
               key={track.id}
@@ -125,14 +158,15 @@ function App() {
               </div>
 
               <div className="controls">
-                <button className="control-btn" onClick={playPrevious}>⏮</button>
+                <button className="control-btn" onClick={playPrevious} title={t.previous}>⏮</button>
                 <button
                   className="control-btn play-btn"
                   onClick={() => setIsPlaying(!isPlaying)}
+                  title={isPlaying ? t.pause : t.play}
                 >
                   {isPlaying ? '⏸' : '▶'}
                 </button>
-                <button className="control-btn" onClick={playNext}>⏭</button>
+                <button className="control-btn" onClick={playNext} title={t.next}>⏭</button>
               </div>
 
               <div className="progress-bar" onClick={handleProgressClick}>
@@ -149,6 +183,12 @@ function App() {
             </>
           )}
         </div>
+      </div>
+
+      <div className="footer">
+        <a href={t.telegramLink} target="_blank" rel="noopener noreferrer" className="telegram-link">
+          {t.telegram}
+        </a>
       </div>
     </div>
   );

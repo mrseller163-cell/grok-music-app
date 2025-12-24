@@ -516,3 +516,135 @@ body {
   transform: scale(1.1);
   color: #fff;
 }
+
+/* File Upload Section */
+.upload-section {
+  max-width: 1600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(20, 0, 40, 0.4);
+  backdrop-filter: blur(20px);
+  border: 2px solid #0ff;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.upload-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #0ff;
+  color: #0ff;
+  padding: 15px 40px;
+  font-size: 1.2em;
+  font-family: 'Courier New', monospace;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.upload-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 40px rgba(0, 255, 255, 0.9);
+  transform: scale(1.05);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+/* Share Button */
+.share-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #f0f;
+  color: #f0f;
+  padding: 10px 25px;
+  font-size: 1em;
+  font-family: 'Courier New', monospace;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+}
+
+.share-btn:hover {
+  background: rgba(255, 0, 255, 0.2);
+  box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
+  transform: scale(1.05);
+}
+
+/* Cookie Consent Banner */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(20px);
+  border-top: 2px solid #0ff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -5px 30px rgba(0, 255, 255, 0.5);
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.cookie-content {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.cookie-content h3 {
+  color: #0ff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.cookie-content p {
+  color: #aaa;
+  font-size: 0.9em;
+}
+
+.cookie-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.cookie-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #0ff;
+  color: #0ff;
+  padding: 10px 30px;
+  font-size: 1em;
+  font-family: 'Courier New', monospace;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cookie-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+  transform: scale(1.05);
+}
+
+.cookie-btn.decline {
+  border-color: #f00;
+  color: #f00;
+}
+
+.cookie-btn.decline:hover {
+  background: rgba(255, 0, 0, 0.2);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+}

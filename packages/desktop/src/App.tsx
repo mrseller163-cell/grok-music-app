@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 
 interface Track {
@@ -7,12 +7,15 @@ interface Track {
   artist: string;
   album: string;
   duration: number;
+  url?: string;
 }
 
 function App() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     fetch('http://localhost:3000/api/tracks')
@@ -21,14 +24,69 @@ function App() {
       .catch(err => console.error('Failed to fetch tracks:', err));
   }, []);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch(err => console.error('Play error:', err));
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (currentTrack && audioRef.current) {
+      audioRef.current.src = currentTrack.url || '';
+      setIsPlaying(true);
+    }
+  }, [currentTrack]);
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (audioRef.current && currentTrack) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      audioRef.current.currentTime = percent * currentTrack.duration;
+    }
+  };
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const playNext = () => {
+    if (currentTrack) {
+      const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
+      if (currentIndex < tracks.length - 1) {
+        setCurrentTrack(tracks[currentIndex + 1]);
+      }
+    }
+  };
+
+  const playPrevious = () => {
+    if (currentTrack) {
+      const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
+      if (currentIndex > 0) {
+        setCurrentTrack(tracks[currentIndex - 1]);
+      }
+    }
   };
 
   return (
     <div className="app">
+      <audio 
+        ref={audioRef} 
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={playNext}
+      />
+      
       <div className="app-header">
         <h1 className="title">GROK MUSIC</h1>
         <div className="title-sub">CYBERPUNK AUDIO SYSTEM v1.0</div>
@@ -65,18 +123,26 @@ function App() {
               </div>
 
               <div className="controls">
-                <button className="control-btn">⏮</button>
+                <button className="control-btn" onClick={playPrevious}>⏮</button>
                 <button
                   className="control-btn play-btn"
                   onClick={() => setIsPlaying(!isPlaying)}
                 >
                   {isPlaying ? '⏸' : '▶'}
                 </button>
-                <button className="control-btn">⏭</button>
+                <button className="control-btn" onClick={playNext}>⏭</button>
               </div>
 
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: '30%' }}></div>
+              <div className="progress-bar" onClick={handleProgressClick}>
+                <div 
+                  className="progress-fill" 
+                  style={{ width: `${(currentTime / currentTrack.duration) * 100}%` }}
+                />
+              </div>
+              
+              <div className="time-display">
+                <span>{formatTime(currentTime)}</span>
+                <span>{formatTime(currentTrack.duration)}</span>
               </div>
             </>
           )}

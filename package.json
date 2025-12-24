@@ -1,0 +1,33 @@
+{
+  "name": "grok-music",
+  "version": "1.0.0",
+  "description": "🎵 Cross-platform music player with DAW - React Native + Electron + Node.js",
+  "private": true,
+  "author": "mrseller163-cell",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "backend": "turbo run dev --filter=backend",
+    "mobile": "turbo run start --filter=mobile",
+    "desktop": "turbo run dev --filter=desktop"
+  },
+  "devDependencies": {
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.6",
+    "prettier": "^3.1.1",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0"
+}

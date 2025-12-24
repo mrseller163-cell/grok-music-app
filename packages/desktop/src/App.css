@@ -383,3 +383,136 @@ body {
   font-size: 1em;
   text-shadow: 0 0 5px #0ff;
 }
+
+/* Language Switcher */
+.header-top {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 10px;
+}
+
+.lang-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #0ff;
+  color: #0ff;
+  padding: 8px 20px;
+  font-size: 1em;
+  font-family: 'Courier New', monospace;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, #0ff, #f0f);
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+}
+
+/* AI Generators Section */
+.ai-generators {
+  max-width: 1600px;
+  margin: 30px auto;
+  padding: 30px;
+  background: rgba(0, 20, 40, 0.4);
+  backdrop-filter: blur(20px);
+  border: 2px solid #f0f;
+  border-radius: 25px;
+  box-shadow: 
+    0 0 30px rgba(255, 0, 255, 0.3),
+    inset 0 0 30px rgba(255, 0, 255, 0.05);
+}
+
+.ai-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.ai-btn {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid #f0f;
+  color: #f0f;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  font-family: 'Courier New', monospace;
+  text-decoration: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 0, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.ai-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.ai-btn:hover {
+  background: rgba(255, 0, 255, 0.2);
+  box-shadow: 
+    0 0 40px rgba(255, 0, 255, 0.9),
+    inset 0 0 20px rgba(255, 0, 255, 0.5);
+  transform: translateY(-5px) scale(1.05);
+  border-color: #f0f;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 30px;
+  margin-top: 40px;
+  border-top: 2px solid #0ff;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.telegram-link {
+  color: #0ff;
+  text-decoration: none;
+  font-size: 1.3em;
+  font-family: 'Courier New', monospace;
+  padding: 15px 40px;
+  border: 2px solid #0ff;
+  border-radius: 15px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.telegram-link:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 
+    0 0 40px rgba(0, 255, 255, 0.9),
+    inset 0 0 20px rgba(0, 255, 255, 0.3);
+  transform: scale(1.1);
+  color: #fff;
+}

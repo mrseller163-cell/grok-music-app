@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
+import { translations, Language } from './i18n';
 
 interface Track {
   id: string;
@@ -16,6 +17,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
+    const [language, setLanguage] = useState<Language>('en');
 
   useEffect(() => {
     fetch('http://localhost:3000/api/tracks')

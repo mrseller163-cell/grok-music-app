@@ -13,7 +13,14 @@ export const translations = {
     udio: 'Udio',
     musicgen: 'MusicGen',
     telegram: 'Support & Contact',
-    telegramLink: 'https://t.me/grokmusic_official'
+    telegramLink: 'https://t.me/grokmusic_official,
+    uploadFile: 'Upload File',
+    chooseFile: 'Choose MP3 file',
+    share: 'Share',
+    cookieTitle: 'Cookie Consent',
+    cookieMessage: 'We use cookies to improve your experience. By continuing to use this site, you agree to our use of cookies.',
+    acceptCookies: 'Accept',
+    declineCookies: 'Decline'
   },
   ru: {
     title: 'GROK MUSIC',
@@ -29,7 +36,14 @@ export const translations = {
     udio: 'Udio',
     musicgen: 'MusicGen',
     telegram: 'Поддержка и Контакты',
-    telegramLink: 'https://t.me/grokmusic_official'
+    telegramLink: 'https://t.me/grokmusic_official,
+    uploadFile: 'Загрузить Файл',
+    chooseFile: 'Выберите MP3 файл',
+    share: 'Поделиться',
+    cookieTitle: 'Согласие Cookie',
+    cookieMessage: 'Мы используем cookie для улучшения вашего опыта. Продолжая использовать этот сайт, вы соглашаетесь с использованием cookie.',
+    acceptCookies: 'Принять',
+    declineCookies: 'Отклонить'
   }
 };
 

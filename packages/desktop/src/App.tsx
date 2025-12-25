@@ -18,6 +18,8 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [language, setLanguage] = useState<Language>('en');
+  const [showCookieBanner, setShowCookieBanner] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const t = translations[language];
 
@@ -44,6 +46,13 @@ function App() {
       setIsPlaying(true);
     }
   }, [currentTrack]);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookieConsent');
+    if (consent) {
+      setShowCookieBanner(false);
+    }
+  }, []);
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {
@@ -81,6 +90,44 @@ function App() {
         setCurrentTrack(tracks[currentIndex - 1]);
       }
     }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('audio/')) {
+      const url = URL.createObjectURL(file);
+      const newTrack: Track = {
+        id: Date.now().toString(),
+        title: file.name.replace(/\.[^/.]+$/, ''),
+        artist: 'Local File',
+        album: 'Uploaded',
+        duration: 180,
+        url: url
+      };
+      setTracks([...tracks, newTrack]);
+      setCurrentTrack(newTrack);
+    }
+  };
+
+  const handleShare = () => {
+    if (currentTrack && navigator.share) {
+      navigator.share({
+        title: currentTrack.title,
+        text: `Listening to ${currentTrack.title} by ${currentTrack.artist}`,
+        url: window.location.href
+      }).catch(err => console.log('Share failed:', err));
+    } else {
+      alert('Share not supported on this device');
+    }
+  };
+
+  const acceptCookies = () => {
+    localStorage.setItem('cookieConsent', 'true');
+    setShowCookieBanner(false);
+  };
+
+  const declineCookies = () => {
+    setShowCookieBanner(false);
   };
 
   return (
@@ -127,6 +174,22 @@ function App() {
         </div>
       </div>
 
+      <div className="upload-section">
+        <div className="section-title">{t.uploadFile}</div>
+        <input 
+          type="file" 
+          ref={fileInputRef}
+          accept="audio/*"
+          onChange={handleFileUpload}
+        />
+        <button 
+          className="upload-btn"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          {t.chooseFile}
+        </button>
+      </div>
+
       <div className="main-content">
         <div className="track-list">
           <div className="section-title">{t.playlist}</div>
@@ -167,6 +230,9 @@ function App() {
                   {isPlaying ? '⏸' : '▶'}
                 </button>
                 <button className="control-btn" onClick={playNext} title={t.next}>⏭</button>
+                <button className="share-btn" onClick={handleShare}>
+                  {t.share}
+                </button>
               </div>
 
               <div className="progress-bar" onClick={handleProgressClick}>
@@ -184,6 +250,23 @@ function App() {
           )}
         </div>
       </div>
+
+      {showCookieBanner && (
+        <div className="cookie-banner">
+          <div className="cookie-content">
+            <h3>{t.cookieTitle}</h3>
+            <p>{t.cookieMessage}</p>
+          </div>
+          <div className="cookie-buttons">
+            <button className="cookie-btn" onClick={acceptCookies}>
+              {t.acceptCookies}
+            </button>
+            <button className="cookie-btn decline" onClick={declineCookies}>
+              {t.declineCookies}
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="footer">
         <a href={t.telegramLink} target="_blank" rel="noopener noreferrer" className="telegram-link">

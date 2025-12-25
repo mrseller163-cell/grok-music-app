@@ -126,9 +126,7 @@ function App() {
     }
 
       const handleShare = () => {
-            if (currentTrack && navigator.share) {- Remove duplicate handleFileUpload function declaration
-- Add proper handleShare function declaration
-- Fix code structure and indentation
+            if (currentTrack && navigator.share) {- 
           navigator.share({
         title: currentTrack.title,
         text: `Listening to ${currentTrack.title} by ${currentTrack.artist}`,

@@ -110,10 +110,6 @@ function App() {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('audio/')) {
       const url = URL.createObjectURL(file);
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && file.type.startsWith('audio/')) {
-      const url = URL.createObjectURL(file);
       const audio = new Audio(url);
       audio.addEventListener('loadedmetadata', () => {
         const newTrack: Track = {
@@ -122,13 +118,17 @@ function App() {
           artist: 'Local File',
           album: 'Uploaded',
           duration: Math.floor(audio.duration),
-          url: url
-        };
+Fix handleFileUpload function - remove duplication and add handleShare        };
         setTracks([...tracks, newTrack]);
         setCurrentTrack(newTrack);
       });
     }
-  };    navigator.share({
+
+      const handleShare = () => {
+            if (currentTrack && navigator.share) {- Remove duplicate handleFileUpload function declaration
+- Add proper handleShare function declaration
+- Fix code structure and indentation
+          navigator.share({
         title: currentTrack.title,
         text: `Listening to ${currentTrack.title} by ${currentTrack.artist}`,
         url: window.location.href

@@ -648,3 +648,64 @@ input[type="file"] {
   background: rgba(255, 0, 0, 0.2);
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }
+
+
+/* Playlist header with filter */
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Album filter select */
+.album-filter {
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid cyan;
+  color: cyan;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: 'Orbitron', monospace;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.album-filter:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Track item layout */
+.track-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.track-info {
+  flex: 1;
+  cursor: pointer;
+}
+
+/* Delete button */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ff3366;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 12px;
+  opacity: 0.6;
+  transition: all 0.3s;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);
+  color: #ff0044;
+  text-shadow: 0 0 10px #ff3366;
+}

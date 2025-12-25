@@ -124,6 +124,7 @@ function App() {
         setCurrentTrack(newTrack);
       });
     }
+      };
 
       const handleShare = () => {
             if (currentTrack && navigator.share) {- 

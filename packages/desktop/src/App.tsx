@@ -118,7 +118,8 @@ function App() {
           artist: 'Local File',
           album: 'Uploaded',
           duration: Math.floor(audio.duration),
-Fix handleFileUpload function - remove duplication and add handleShare        };
+                    url: url
+                              };
         setTracks([...tracks, newTrack]);
         setCurrentTrack(newTrack);
       });

@@ -20,8 +20,22 @@ function App() {
   const [language, setLanguage] = useState<Language>('en');
   const [showCookieBanner, setShowCookieBanner] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
+    const [selectedAlbum, setSelectedAlbum] = useState<string>('all');
   
   const t = translations[language];
+
+    const albums = ['all', ...Array.from(new Set(tracks.map(t => t.album)))];
+    const filteredTracks = selectedAlbum === 'all' ? tracks : tracks.filter(t => t.album === selectedAlbum);
+
+    const deleteTrack = (trackId: string) => {
+          const trackToDelete = tracks.find(t => t.id === trackId);
+          if (trackToDelete?.url) URL.revokeObjectURL(trackToDelete.url);
+          setTracks(tracks.filter(t => t.id !== trackId));
+          if (currentTrack?.id === trackId) {
+                  setCurrentTrack(null);
+                  setIsPlaying(false);
+                }
+        };
 
   useEffect(() => {
     fetch('http://localhost:3000/api/tracks')
@@ -96,22 +110,25 @@ function App() {
     const file = e.target.files?.[0];
     if (file && file.type.startsWith('audio/')) {
       const url = URL.createObjectURL(file);
-      const newTrack: Track = {
-        id: Date.now().toString(),
-        title: file.name.replace(/\.[^/.]+$/, ''),
-        artist: 'Local File',
-        album: 'Uploaded',
-        duration: 180,
-        url: url
-      };
-      setTracks([...tracks, newTrack]);
-      setCurrentTrack(newTrack);
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.type.startsWith('audio/')) {
+      const url = URL.createObjectURL(file);
+      const audio = new Audio(url);
+      audio.addEventListener('loadedmetadata', () => {
+        const newTrack: Track = {
+          id: Date.now().toString(),
+          title: file.name.replace(/\.[^/.]+$/, ''),
+          artist: 'Local File',
+          album: 'Uploaded',
+          duration: Math.floor(audio.duration),
+          url: url
+        };
+        setTracks([...tracks, newTrack]);
+        setCurrentTrack(newTrack);
+      });
     }
-  };
-
-  const handleShare = () => {
-    if (currentTrack && navigator.share) {
-      navigator.share({
+  };    navigator.share({
         title: currentTrack.title,
         text: `Listening to ${currentTrack.title} by ${currentTrack.artist}`,
         url: window.location.href
@@ -192,22 +209,23 @@ function App() {
 
       <div className="main-content">
         <div className="track-list">
-          <div className="section-title">{t.playlist}</div>
-          {tracks.map((track) => (
-            <div
-              key={track.id}
-              className={`track-item ${currentTrack?.id === track.id ? 'active' : ''}`}
-              onClick={() => setCurrentTrack(track)}
-            >
-              <div className="track-info">
+          <div className="playlist-header">
+            <div className="section-title">{t.playlist}</div>
+            <select className="album-filter" value={selectedAlbum} onChange={(e) => setSelectedAlbum(e.target.value)}>
+              {albums.map(album => (<option key={album} value={album}>{album === 'all' ? (language === 'en' ? 'All Albums' : 'Все альбомы') : album}</option>))}
+            </select>
+          </div>
+          {filteredTracks.map((track) => (
+            <div key={track.id} className={`track-item ${currentTrack?.id === track.id ? 'active' : ''}`}>
+              <div className="track-info" onClick={() => setCurrentTrack(track)}>
                 <div className="track-title">{track.title}</div>
                 <div className="track-artist">{track.artist}</div>
               </div>
               <div className="track-duration">{formatTime(track.duration)}</div>
+              <button className="delete-btn" onClick={(e) => { e.stopPropagation(); deleteTrack(track.id); }} title={language === 'en' ? 'Delete' : 'Удалить'}>×</button>
             </div>
           ))}
         </div>
-
         <div className="player-section">
           {currentTrack && (
             <>
